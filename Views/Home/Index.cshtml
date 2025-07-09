@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <h2 class="mb-4">Fleet Management Dashboard</h2>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Vehicles</h5>
+                    <p class="card-text">Manage all leased vehicles.</p>
+                    <a href="/Vehicles" class="btn btn-light btn-sm">View Vehicles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Clients</h5>
+                    <p class="card-text">View or register client companies.</p>
+                    <a href="/Clients" class="btn btn-light btn-sm">Manage Clients</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Drivers</h5>
+                    <p class="card-text">Assign or update driver info.</p>
+                    <a href="/Drivers" class="btn btn-light btn-sm">View Drivers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Reports</h5>
+                    <p class="card-text">View fleet performance reports.</p>
+                    <a href="/Reports" class="btn btn-light btn-sm">View Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

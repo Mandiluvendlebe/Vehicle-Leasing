@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vehicle Report</h2>
+
+<h3>Vehicles by Supplier</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Supplier</th><th>Total Vehicles</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.SupplierStats)
+        {
+            <tr>
+                <td>@item.Supplier</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Vehicles by Branch</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Branch</th><th>Total Vehicles</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.BranchStats)
+        {
+            <tr>
+                <td>@item.Branch</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Vehicles by Client</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Client</th><th>Total Vehicles</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ClientStats)
+        {
+            <tr>
+                <td>@item.Client</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Vehicles by Manufacturer (Make)</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr><th>Make</th><th>Total Vehicles</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ManufacturerStats)
+        {
+            <tr>
+                <td>@item.Make</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>

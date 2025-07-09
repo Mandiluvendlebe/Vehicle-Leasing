@@ -1,0 +1,14 @@
+﻿@model IEnumerable<VehicleLeasingApplication.Models.Branch>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Location</td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.BranchID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.BranchID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.BranchID">Delete</a>
+        </td>
+    </tr>
+}

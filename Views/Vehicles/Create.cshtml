@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Add new Vehicle</h1>
 
 <h4>Vehicle</h4>
 <hr />
@@ -59,6 +59,38 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-@TempData["ModalType"]">
+            <div class="modal-header bg-@((TempData["ModalType"]?.ToString() == "success") ? "success" : "danger") text-white">
+                <h5 class="modal-title" id="feedbackModalLabel">
+                    @((TempData["ModalType"]?.ToString() == "success") ? "Success" : "Error")
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @TempData["ModalMessage"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const modalMessage = "@TempData["ModalMessage"]";
+            if (modalMessage) {
+                const feedbackModal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+                feedbackModal.show();
+            }
+        });
+    </script>
 }

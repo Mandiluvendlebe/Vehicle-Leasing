@@ -19,10 +19,18 @@ namespace VehicleLeasingApplication.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Clients.ToListAsync());
+            var clientsQuery = _context.Clients.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                clientsQuery = clientsQuery.Where(c => c.Name.Contains(searchString));
+            }
+
+            return View(await clientsQuery.ToListAsync());
         }
+
 
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)

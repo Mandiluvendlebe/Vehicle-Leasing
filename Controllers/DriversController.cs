@@ -19,10 +19,18 @@ namespace VehicleLeasingApplication.Controllers
         }
 
         // GET: Drivers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Drivers.ToListAsync());
+            var driversQuery = _context.Drivers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                driversQuery = driversQuery.Where(d => d.FullName.Contains(searchString));
+            }
+
+            return View(await driversQuery.ToListAsync());
         }
+
 
         // GET: Drivers/Details/5
         public async Task<IActionResult> Details(int? id)

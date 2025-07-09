@@ -4,11 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>All Suppliers</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Supplier</a>
 </p>
+
+<form asp-action="Index" method="get" class="mb-3 row g-3 align-items-end">
+    <div class="col-md-4">
+        <label for="searchString">Search by Name</label>
+        <input type="text" name="searchString" class="form-control"
+               value="@Context.Request.Query["searchString"]" placeholder="e.g. Toyota" />
+    </div>
+    <div class="col-md-4">
+        <label for="location">Filter by Location</label>
+        <select name="location" class="form-control" asp-items="ViewBag.Locations">
+            <option value="">All Locations</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>

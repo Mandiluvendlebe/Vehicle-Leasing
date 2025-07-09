@@ -19,10 +19,34 @@ namespace VehicleLeasingApplication.Controllers
         }
 
         // GET: Suppliers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string location)
         {
-            return View(await _context.Suppliers.ToListAsync());
+            var suppliersQuery = _context.Suppliers.AsQueryable();
+
+            // Filter by search text
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                suppliersQuery = suppliersQuery.Where(s => s.Name.Contains(searchString));
+            }
+
+            // Filter by location
+            if (!string.IsNullOrEmpty(location))
+            {
+                suppliersQuery = suppliersQuery.Where(s => s.Location == location);
+            }
+
+            // Populate distinct locations for filter dropdown
+            var locations = await _context.Suppliers
+                .Select(s => s.Location)
+                .Distinct()
+                .OrderBy(l => l)
+                .ToListAsync();
+
+            ViewBag.Locations = new SelectList(locations, location); // second arg sets selected
+
+            return View(await suppliersQuery.ToListAsync());
         }
+
 
         // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(int? id)

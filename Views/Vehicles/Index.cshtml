@@ -4,11 +4,46 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>All Vehicles</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Vehicle</a>
 </p>
+
+<form asp-action="Index" method="get" class="mb-3 row g-3 align-items-end">
+    <div class="col-md-3">
+        <label>Search</label>
+        <input type="text" name="searchString" value="@Context.Request.Query["searchString"]" class="form-control" placeholder="Make, Model or Reg" />
+    </div>
+    <div class="col-md-2">
+        <label>Supplier</label>
+        <select name="supplierId" class="form-control" asp-items="ViewBag.Suppliers">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label>Branch</label>
+        <select name="branchId" class="form-control" asp-items="ViewBag.Branches">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label>Client</label>
+        <select name="clientId" class="form-control" asp-items="ViewBag.Clients">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label>Driver</label>
+        <select name="driverId" class="form-control" asp-items="ViewBag.Drivers">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-1">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>

@@ -19,7 +19,7 @@ namespace VehicleLeasingApplication.Controllers
         }
 
         // GET: Branches
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             return View(await _context.Branches.ToListAsync());
         }

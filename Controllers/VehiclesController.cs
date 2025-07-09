@@ -19,11 +19,45 @@ namespace VehicleLeasingApplication.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? supplierId, int? branchId, int? clientId, int? driverId)
         {
-            var applicationDbContext = _context.Vehicles.Include(v => v.Branch).Include(v => v.Client).Include(v => v.Driver).Include(v => v.Supplier);
-            return View(await applicationDbContext.ToListAsync());
+            var vehiclesQuery = _context.Vehicles
+                .Include(v => v.Supplier)
+                .Include(v => v.Branch)
+                .Include(v => v.Client)
+                .Include(v => v.Driver)
+                .AsQueryable();
+
+            // Filtering logic
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vehiclesQuery = vehiclesQuery.Where(v =>
+                    v.Make.Contains(searchString) ||
+                    v.Model.Contains(searchString) ||
+                    v.RegistrationNumber.Contains(searchString));
+            }
+
+            if (supplierId.HasValue)
+                vehiclesQuery = vehiclesQuery.Where(v => v.SupplierID == supplierId.Value);
+
+            if (branchId.HasValue)
+                vehiclesQuery = vehiclesQuery.Where(v => v.BranchID == branchId.Value);
+
+            if (clientId.HasValue)
+                vehiclesQuery = vehiclesQuery.Where(v => v.ClientID == clientId.Value);
+
+            if (driverId.HasValue)
+                vehiclesQuery = vehiclesQuery.Where(v => v.DriverID == driverId.Value);
+
+            // Load dropdown data
+            ViewBag.Suppliers = new SelectList(await _context.Suppliers.ToListAsync(), "SupplierID", "Name", supplierId);
+            ViewBag.Branches = new SelectList(await _context.Branches.ToListAsync(), "BranchID", "Name", branchId);
+            ViewBag.Clients = new SelectList(await _context.Clients.ToListAsync(), "ClientID", "Name", clientId);
+            ViewBag.Drivers = new SelectList(await _context.Drivers.ToListAsync(), "DriverID", "FullName", driverId);
+
+            return View(await vehiclesQuery.ToListAsync());
         }
+
 
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -50,12 +84,13 @@ namespace VehicleLeasingApplication.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID");
-            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "ClientID");
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID");
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "SupplierID");
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name");
+            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "Name");
+            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "FullName"); // or appropriate property
+            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "Name");
             return View();
         }
+
 
         // POST: Vehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -66,16 +101,36 @@ namespace VehicleLeasingApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(vehicle);
+                    await _context.SaveChangesAsync();
+
+                    TempData["ModalMessage"] = "Vehicle created successfully!";
+                    TempData["ModalType"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["ModalMessage"] = $"Error saving vehicle: {ex.Message}";
+                    TempData["ModalType"] = "error";
+                }
             }
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID", vehicle.BranchID);
-            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "ClientID", vehicle.ClientID);
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", vehicle.DriverID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "SupplierID", vehicle.SupplierID);
+            else
+            {
+                TempData["ModalMessage"] = "Failed to create vehicle. Please correct the form.";
+                TempData["ModalType"] = "error";
+            }
+
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name", vehicle.BranchID);
+            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "Name", vehicle.ClientID);
+            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "FullName", vehicle.DriverID);
+            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "Name", vehicle.SupplierID);
+
             return View(vehicle);
         }
+
+
 
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)

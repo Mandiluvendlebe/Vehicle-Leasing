@@ -1,4 +1,6 @@
 ﻿@model VehicleLeasingApplication.Models.Vehicle
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
 @{
     ViewData["Title"] = "Create";
@@ -10,26 +12,27 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Make" class="control-label"></label>
-                <input asp-for="Make" class="form-control" />
+                <input asp-for="Make" class="form-control" type="text" />
                 <span asp-validation-for="Make" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
+                <input asp-for="Model" class="form-control" type="text" />
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
+                <input asp-for="Year" class="form-control" type="number" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RegistrationNumber" class="control-label"></label>
-                <input asp-for="RegistrationNumber" class="form-control" />
+                <input asp-for="RegistrationNumber" class="form-control" type="text" />
                 <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -48,6 +51,7 @@
                 <label asp-for="DriverID" class="control-label"></label>
                 <select asp-for="DriverID" class ="form-control" asp-items="ViewBag.DriverID"></select>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

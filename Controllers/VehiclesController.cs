@@ -112,12 +112,26 @@ namespace VehicleLeasingApplication.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("❌ Exception during SaveChangesAsync:");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.InnerException?.Message);
+
                     TempData["ModalMessage"] = $"Error saving vehicle: {ex.Message}";
                     TempData["ModalType"] = "error";
                 }
+
             }
             else
             {
+                // 🔥 Add this: log model validation errors
+                foreach (var modelState in ModelState)
+                {
+                    foreach (var error in modelState.Value.Errors)
+                    {
+                        Console.WriteLine($"❌ ModelState Error in '{modelState.Key}': {error.ErrorMessage}");
+                    }
+                }
+
                 TempData["ModalMessage"] = "Failed to create vehicle. Please correct the form.";
                 TempData["ModalType"] = "error";
             }
@@ -129,6 +143,7 @@ namespace VehicleLeasingApplication.Controllers
 
             return View(vehicle);
         }
+
 
 
 
@@ -145,10 +160,10 @@ namespace VehicleLeasingApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID", vehicle.BranchID);
-            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "ClientID", vehicle.ClientID);
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", vehicle.DriverID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "SupplierID", vehicle.SupplierID);
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name", vehicle.BranchID);
+            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "Name", vehicle.ClientID);
+            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "FullName", vehicle.DriverID);
+            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "Name", vehicle.SupplierID);
             return View(vehicle);
         }
 
@@ -184,10 +199,10 @@ namespace VehicleLeasingApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "BranchID", vehicle.BranchID);
-            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "ClientID", vehicle.ClientID);
-            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "DriverID", vehicle.DriverID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "SupplierID", vehicle.SupplierID);
+            ViewData["BranchID"] = new SelectList(_context.Branches, "BranchID", "Name", vehicle.BranchID);
+            ViewData["ClientID"] = new SelectList(_context.Clients, "ClientID", "Name", vehicle.ClientID);
+            ViewData["DriverID"] = new SelectList(_context.Drivers, "DriverID", "FullName", vehicle.DriverID);
+            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "SupplierID", "Name", vehicle.SupplierID);
             return View(vehicle);
         }
 

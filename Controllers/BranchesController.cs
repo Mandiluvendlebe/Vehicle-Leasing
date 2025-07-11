@@ -55,14 +55,29 @@ namespace VehicleLeasingApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BranchID,Name,Location")] Branch branch)
         {
-            if (ModelState.IsValid)
+            Console.WriteLine("Create POST called");
+
+            // This will run no matter what
+            if (!ModelState.IsValid)
             {
-                _context.Add(branch);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Console.WriteLine("ModelState is INVALID!");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine("Validation error: " + error.ErrorMessage);
+                }
+                return View(branch);
             }
-            return View(branch);
+
+            Console.WriteLine($"Received Name: {branch.Name}, Location: {branch.Location}");
+
+            _context.Add(branch);
+            var result = await _context.SaveChangesAsync();
+            Console.WriteLine("Save result: " + result);
+
+            return RedirectToAction(nameof(Index));
         }
+
+
 
         // GET: Branches/Edit/5
         public async Task<IActionResult> Edit(int? id)

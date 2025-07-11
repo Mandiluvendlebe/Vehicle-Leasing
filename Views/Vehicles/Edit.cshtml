@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit Vehicle Details</h1>
 
 <h4>Vehicle</h4>
 <hr />
@@ -53,6 +53,7 @@
                 <select asp-for="DriverID" class="form-control" asp-items="ViewBag.DriverID"></select>
                 <span asp-validation-for="DriverID" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

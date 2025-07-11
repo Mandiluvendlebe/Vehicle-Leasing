@@ -20,3 +20,30 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Rosond Dashboard Styling */
+.card-rosond {
+    background-color: #d6001c; /* Rosond red */
+    color: white;
+    border: none;
+    transition: transform 0.2s ease;
+}
+
+    .card-rosond:hover {
+        transform: scale(1.03);
+    }
+
+.card-rosond-dark {
+    background-color: #2b2b2b; /* Dark gray/black */
+    color: white;
+}
+
+.card-rosond-light {
+    background-color: #0072c6; /* Optional accent blue */
+    color: white;
+}
+
+.dashboard-title {
+    color: #d6001c;
+    font-weight: bold;
+}

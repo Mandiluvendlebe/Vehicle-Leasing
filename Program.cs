@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore; // Ensure this namespace is used for DbContext
 using Microsoft.EntityFrameworkCore.SqlServer; // Ensure this namespace is used for SQL Server
+using VehicleLeasingApplication.Controllers;
+using VehicleLeasingApplication.Models;
+using VehicleLeasingApplication.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,11 +32,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    DbInitializer.Seed(services);
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    DbInitializer.Seed(services);
+//}
 
 
 app.Run();

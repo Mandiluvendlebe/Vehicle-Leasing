@@ -5,66 +5,95 @@
 
 <h2>Vehicle Report</h2>
 
-<h3>Vehicles by Supplier</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Supplier</th><th>Total Vehicles</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.SupplierStats)
-        {
-            <tr>
-                <td>@item.Supplier</td>
-                <td>@item.Count</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="mb-3">
+    <label for="reportFilter">Select Report Section to Print or Export:</label>
+    <select id="reportFilter" class="form-select" style="width: 300px; display: inline-block;">
+        <option value="all">All Reports</option>
+        <option value="supplier">Vehicles by Supplier</option>
+        <option value="branch">Vehicles by Branch</option>
+        <option value="client">Vehicles by Client</option>
+        <option value="make">Vehicles by Manufacturer</option>
+    </select>
 
-<h3>Vehicles by Branch</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Branch</th><th>Total Vehicles</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.BranchStats)
-        {
-            <tr>
-                <td>@item.Branch</td>
-                <td>@item.Count</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <button class="btn btn-success ms-2" onclick="exportToExcel()">Export to Excel</button>
 
-<h3>Vehicles by Client</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Client</th><th>Total Vehicles</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.ClientStats)
-        {
-            <tr>
-                <td>@item.Client</td>
-                <td>@item.Count</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
 
-<h3>Vehicles by Manufacturer (Make)</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Make</th><th>Total Vehicles</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.ManufacturerStats)
-        {
-            <tr>
-                <td>@item.Make</td>
-                <td>@item.Count</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div id="report-supplier">
+    <h3>Vehicles by Supplier</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>Supplier</th><th>Total Vehicles</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.SupplierStats)
+            {
+                <tr>
+                    <td>@item.Supplier</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="report-branch">
+    <h3>Vehicles by Branch</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>Branch</th><th>Total Vehicles</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.BranchStats)
+            {
+                <tr>
+                    <td>@item.Branch</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="report-client">
+    <h3>Vehicles by Client</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>Client</th><th>Total Vehicles</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.ClientStats)
+            {
+                <tr>
+                    <td>@item.Client</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="report-make">
+    <h3>Vehicles by Manufacturer (Make)</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr><th>Make</th><th>Total Vehicles</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.ManufacturerStats)
+            {
+                <tr>
+                    <td>@item.Make</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+}
+
+        

@@ -1,4 +1,6 @@
-﻿namespace VehicleLeasingApplication.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace VehicleLeasingApplication.Models
 {
     public class Driver
     {
@@ -7,6 +9,7 @@
         public string LicenseNumber { get; set; }
         public string Contact { get; set; }
 
+        [ValidateNever]
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }
 
